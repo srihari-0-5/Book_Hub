@@ -1,0 +1,392 @@
+/* General Body and HTML structure */
+body {
+    font-family: 'Poppins', sans-serif; /* Use a modern, clean font */
+    margin: 0;
+    overflow: hidden; /* Important for full-screen layout */
+    height: 100vh; /* Make body fill viewport height */
+    display: flex; /* Ensure body itself is a flex container if nothing else covers it */
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #4b0082, #800080, #ff00ff); /* Deep purple to magenta gradient */
+    /* Add subtle background shapes - advanced CSS */
+    position: relative;
+    z-index: 1;
+}
+
+/* Background Shapes (Optional, for more detail like the reference) */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%; /* Circular shapes */
+    filter: blur(80px); /* Soft blur */
+    opacity: 0.4;
+    z-index: -1; /* Behind content */
+}
+
+body::before {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(45deg, #ff00ff, #8a2be2); /* Pinkish purple */
+    top: -50px;
+    left: -50px;
+}
+
+body::after {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, #8a2be2, #4b0082); /* Blueish purple */
+    bottom: -100px;
+    right: -100px;
+}
+/* You can add more complex shapes or animations if desired */
+
+
+/* --- Main Login Container --- */
+.main-login-container {
+    display: flex;
+    width: 90%; /* Adjust overall width */
+    max-width: 1000px; /* Max width for larger screens */
+    height: 80vh; /* Adjust overall height */
+    max-height: 600px; /* Max height for larger screens */
+    background-color: rgba(255, 255, 255, 0.05); /* Very subtle transparent background for the whole unit */
+    border-radius: 20px;
+    overflow: hidden; /* Crucial for background effects and containing children */
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+    position: relative; /* For absolute positioning of logo */
+}
+
+/* --- Top Left Logo --- */
+.top-left-logo {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    color: white;
+    font-size: 2.5em;
+    font-weight: 700;
+    z-index: 10;
+    /* If you use an icon */
+    display: flex;
+    align-items: center;
+}
+.top-left-logo i {
+    margin-right: 10px;
+    font-size: 1em; /* Adjust icon size relative to text */
+}
+
+/* --- Left Section: Welcome Text & Learn More --- */
+.welcome-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align text to the left */
+    padding: 50px;
+    color: white;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* For the abstract shapes behind the welcome text */
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-text {
+    font-size: 4em; /* Very large "Welcome!" */
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1;
+}
+
+.welcome-subtext {
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 80%; /* Limit width for readability */
+}
+
+.learn-more-btn {
+    background: linear-gradient(90deg, #ff6a00, #ee0979); /* Orange to pink gradient */
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
+}
+
+.learn-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.4);
+}
+
+
+/* --- Right Section: Sign In Form --- */
+.signin-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* For background abstract shapes */
+    background: rgba(255, 255, 255, 0.05); /* Subtle background for this side */
+}
+
+.signin-card {
+    background: rgba(255, 255, 255, 0.1); /* Frosted glass background */
+    backdrop-filter: blur(15px); /* Crucial for frosted effect */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
+    border-radius: 15px;
+    padding: 40px;
+    width: 85%; /* Adjust width within its flex container */
+    max-width: 400px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    color: white; /* Text color inside card */
+    text-align: center;
+}
+
+.card-title {
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between input groups */
+}
+
+.input-group {
+    text-align: left; /* Align label and input text */
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95em;
+}
+
+.signin-card input[type="text"],
+.signin-card input[type="password"],
+.signin-card input[type="email"] {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1); /* Very subtle background for input */
+    color: white; /* Input text color */
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.signin-card input::placeholder {
+    color: rgba(255, 255, 255, 0.6); /* Placeholder text color */
+}
+
+.signin-card input[type="text"]:focus,
+.signin-card input[type="password"]:focus,
+.signin-card input[type="email"]:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.15);
+    outline: none;
+}
+
+.submit-btn {
+    background: linear-gradient(90deg, #ff6a00, #ee0979); /* Orange to pink gradient */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 20px; /* Space after last input */
+    box-shadow: 0 5px 15px rgba(255, 106, 0, 0.4);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 106, 0, 0.5);
+}
+
+.social-login-icons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between icons */
+}
+
+.social-icon {
+    color: white;
+    font-size: 1.8em; /* Size of icons */
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-icon:hover {
+    color: #ff6a00; /* Orange on hover */
+    transform: translateY(-3px) scale(1.1);
+}
+
+.register-prompt {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 25px;
+}
+
+.register-prompt a {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5); /* Subtle underline */
+    transition: border-color 0.2s ease;
+}
+
+.register-prompt a:hover {
+    border-color: white;
+}
+
+/* --- Flash Messages (adjust for new design) --- */
+.flashes {
+    list-style: none;
+    padding: 0;
+    margin: -15px auto 20px auto;
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.flashes li {
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent for consistency */
+    color: white; /* Text color for flash messages */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+/* Specific flash colors (adjust these if needed to fit the dark theme) */
+.flashes .success { background-color: rgba(40, 167, 69, 0.4); border-color: rgba(40, 167, 69, 0.6); }
+.flashes .danger { background-color: rgba(220, 53, 69, 0.4); border-color: rgba(220, 53, 69, 0.6); }
+.flashes .warning { background-color: rgba(255, 193, 7, 0.4); border-color: rgba(255, 193, 7, 0.6); }
+.flashes .info { background-color: rgba(23, 162, 184, 0.4); border-color: rgba(23, 162, 184, 0.6); }
+
+
+/* --- Responsive Design for Login Page --- */
+@media (max-width: 768px) {
+    .main-login-container {
+        flex-direction: column; /* Stack sections vertically */
+        height: auto; /* Allow height to adjust */
+        max-height: unset;
+        width: 95%; /* Take more width on small screens */
+        padding: 20px 0; /* Vertical padding */
+    }
+
+    .top-left-logo {
+        position: static; /* Remove absolute positioning */
+        margin-bottom: 20px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .welcome-section {
+        padding: 30px;
+        text-align: center;
+        align-items: center; /* Center text for stacked layout */
+    }
+
+    .welcome-text {
+        font-size: 3em;
+    }
+
+    .welcome-subtext {
+        font-size: 1em;
+        max-width: 100%;
+    }
+
+    .learn-more-btn {
+        width: 80%; /* Make button wider */
+        max-width: 250px;
+    }
+
+    .signin-section {
+        padding: 30px; /* Add padding to the section itself */
+        background: none; /* Remove background on this side if stacked */
+    }
+    .signin-card {
+        width: 100%; /* Fill available width */
+        padding: 30px;
+    }
+
+    .card-title {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .login-form {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-section {
+        padding: 20px;
+    }
+    .welcome-text {
+        font-size: 2.5em;
+    }
+    .signin-card {
+        padding: 20px;
+    }
+    .social-icon {
+        font-size: 1.5em;
+    }
+}
+
+
+/* --- YOUR EXISTING CSS FOR NAVBAR, BOOKS.HTML, CART.HTML ETC. GOES HERE --- */
+/* Ensure you have these from previous steps: */
+/*
+.navbar { ... }
+.navbar a { ... }
+.container { ... }
+.book-list { ... }
+.book-card { ... }
+.book-card img { ... }
+.book-card h3 { ... }
+.book-card p { ... }
+.book-card .description { ... }
+.book-card .price { ... }
+.add-to-cart-btn, .checkout-btn { ... }
+.cart-table { ... }
+.cart-table th, .cart-table td { ... }
+.cart-table th { ... }
+.cart-table tfoot td { ... }
+.checkout-btn-container { ... }
+*/
+
+.popup-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateY(-50px);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.popup-message.show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}

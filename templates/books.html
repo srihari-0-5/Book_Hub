@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHub | Books</title>
+    <!-- Use Tailwind CSS for a modern, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .flash {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: white;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+.flash.success {
+    background-color: #2196F3;
+}
+.flash.danger {
+    background-color: #F44336;
+}
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-sm p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="{{ url_for('home') }}" class="flex items-center space-x-2">
+                <span class="text-3xl font-bold text-gray-900">BOOKSHUB</span>
+            </a>
+            
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Home</a>
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Shop</a>
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Products</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">FAQs</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">My account</a>
+            </nav>
+
+            <!-- User/Cart Icons -->
+            <div class="flex items-center space-x-4">
+                <a href="{{ url_for('view_cart') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                </a>
+                <a href="{{ url_for('logout') }}" class="text-sm px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+
+            <!-- Loop through each book item from the backend -->
+            {% for book in books %}
+            <div class="book-card bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-4 relative">
+                
+                <!-- Discount Badge -->
+                <div class="absolute top-4 left-4 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                    -29% <!-- Static discount for demonstration -->
+                </div>
+                
+                <!-- Book Image -->
+                <div class="flex justify-center">
+                    <!-- Corrected image path using url_for('static', ...) -->
+                    <img src="{{ url_for('static', filename=book[5]) }}" alt="{{ book[1] }}" class="rounded-lg h-60 w-auto object-cover mb-4">
+                </div>
+                
+                <!-- Book Details -->
+                <div class="book-details flex-1 flex flex-col items-center text-center">
+                    <h3 class="text-lg font-semibold text-gray-900 line-clamp-2 mb-1">{{ book[1] }}</h3>
+                    <p class="text-sm text-gray-500 line-clamp-1 mb-2">By {{ book[2] }}</p>
+                    
+                    <!-- Star Rating -->
+                    <div class="flex text-yellow-400 mb-2">
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-regular fa-star text-sm"></i>
+                    </div>
+                    
+                    <!-- Pricing -->
+                    <div class="flex items-center space-x-2 text-md font-bold mb-4">
+                        {% set original_price = book[4] | float %}
+                        {% set discounted_price = original_price * 0.71 %}
+                        <span class="text-gray-400 line-through">₹{{ '%.2f' | format(original_price) }}</span>
+                        <span class="text-red-500">₹{{ '%.2f' | format(discounted_price) }}</span>
+                    </div>
+                    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+                    <!-- Add to Cart Button -->
+                    <a href="{{ url_for('add_to_cart', book_id=book[0]) }}" class="w-full px-4 py-2 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                        Add to cart
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+    </main>
+
+</body>
+</html>

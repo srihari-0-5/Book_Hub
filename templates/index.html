@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHub | Login & Register</title>
+    <!-- Use Tailwind CSS for a modern, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .flash {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            color: white;
+            z-index: 100;
+        }
+        .flash.success {
+            background-color: #4CAF50;
+        }
+        .flash.danger {
+            background-color: #F44336;
+        }
+        .flash.info {
+            background-color: #2196F3;
+        }
+        .card-container {
+            transition: all 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="card-container bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-4xl w-full flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-12">
+        
+        <!-- Left Side: Welcome Section -->
+        <div class="welcome-section flex-1 text-center md:text-left flex flex-col justify-center items-center md:items-start p-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Welcome to BookHub</h1>
+            <p class="text-slate-600 mb-6 max-w-lg">
+                BookHub offers an extensive collection of books across all genres, from thrilling mysteries to captivating fantasies. Find your next great read with ease!
+            </p>
+            <div class="flex flex-col space-y-4">
+                <!-- Removed buttons as requested -->
+            </div>
+        </div>
+
+        <!-- Right Side: Auth Forms -->
+        <div class="form-section flex-1 flex flex-col items-center justify-center">
+            
+            <div class="w-full max-w-sm bg-slate-50 p-8 rounded-2xl shadow-inner">
+                
+                <!-- Login Form -->
+                <form action="{{ url_for('login') }}" method="POST" id="loginForm" class="flex flex-col space-y-4">
+                    <h2 class="text-3xl font-bold text-center text-slate-800">Sign In</h2>
+                    <div class="input-group">
+                        <label for="username" class="text-slate-600 block mb-1 font-semibold">User Name</label>
+                        <input type="text" id="username" name="username" placeholder="Your Username" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password" class="text-slate-600 block mb-1 font-semibold">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md">Sign In</button>
+                </form>
+
+                <!-- Register Form (hidden by default) -->
+                <form action="{{ url_for('register') }}" method="POST" id="registerForm" class="hidden flex-col space-y-4">
+                    <h2 class="text-3xl font-bold text-center text-slate-800">Register</h2>
+                    <div class="input-group">
+                        <label for="reg_username" class="text-slate-600 block mb-1 font-semibold">User Name</label>
+                        <input type="text" id="reg_username" name="username" placeholder="Choose a Username" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="reg_email" class="text-slate-600 block mb-1 font-semibold">Email</label>
+                        <input type="email" id="reg_email" name="email" placeholder="your@email.com" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="reg_password" class="text-slate-600 block mb-1 font-semibold">Password</label>
+                        <input type="password" id="reg_password" name="password" placeholder="••••••••" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200" required>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors duration-200 shadow-md">Register</button>
+                </form>
+
+                <!-- Link to toggle between forms -->
+                <p class="text-center mt-6 text-slate-500">
+                    Don't have an account? 
+                    <a href="#" id="showRegisterLink" class="text-blue-600 hover:underline font-semibold">Register here</a>
+                </p>
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- Link to our JavaScript file -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

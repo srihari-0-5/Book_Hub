@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHub | Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-sm p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="{{ url_for('home') }}" class="flex items-center space-x-2">
+                <span class="text-3xl font-bold text-gray-900">BOOKSHUB</span>
+            </a>
+            
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Home</a>
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Shop</a>
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Products</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">FAQs</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">My account</a>
+            </nav>
+
+            <!-- User/Cart Icons -->
+            <div class="flex items-center space-x-4">
+                <a href="{{ url_for('view_cart') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                </a>
+                <a href="{{ url_for('logout') }}" class="text-sm px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6 min-h-screen">
+        <h1 class="text-4xl font-bold text-center text-gray-900 mb-8">Checkout</h1>
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Payment Information</h2>
+            
+            <form id="payment-form" class="space-y-6">
+                <div>
+                    <label for="card_holder" class="block text-sm font-medium text-gray-700">Card Holder Name</label>
+                    <input type="text" id="card_holder" name="card_holder" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="John Doe" required>
+                </div>
+                <div>
+                    <label for="card_number" class="block text-sm font-medium text-gray-700">Card Number</label>
+                    <input type="text" id="card_number" name="card_number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="XXXX XXXX XXXX XXXX" required>
+                </div>
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="col-span-2">
+                        <label for="expiry" class="block text-sm font-medium text-gray-700">Expiration Date</label>
+                        <input type="text" id="expiry" name="expiry" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="MM/YY" required>
+                    </div>
+                    <div>
+                        <label for="cvv" class="block text-sm font-medium text-gray-700">CVV</label>
+                        <input type="text" id="cvv" name="cvv" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="XXX" required>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-6">
+                    <div class="flex justify-between items-center text-xl font-bold text-gray-900">
+                        <span>Total:</span>
+                        <span>₹{{ '%.2f' | format(total_price) }}</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                    Pay Now
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Payment Successful Modal -->
+    <div id="success-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center">
+            <div class="text-green-500 text-6xl mb-4">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
+            <p class="text-gray-600 mb-6">Thank you for your purchase. Your order is being processed.</p>
+            <button id="continue-shopping-btn" class="w-full inline-block bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md">Continue Shopping</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', async function(event) {
+            // Prevent the form from submitting normally
+            event.preventDefault();
+            
+            // Clear the cart on the server side
+            try {
+                // Assuming there's a Flask route for this: @app.route('/clear_cart', methods=['POST'])
+                const response = await fetch("{{ url_for('clear_cart') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+
+                if (response.ok) {
+                    console.log('Cart cleared successfully.');
+                } else {
+                    console.error('Failed to clear cart:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error clearing cart:', error);
+            }
+
+            // Get the modal element
+            const modal = document.getElementById('success-modal');
+            
+            // Show the modal by removing the 'hidden' class
+            modal.classList.remove('hidden');
+
+            // Redirect after a few seconds, giving time for the user to see the success message
+            setTimeout(() => {
+                window.location.href = "{{ url_for('books') }}";
+            }, 3000); // Redirects after 3 seconds
+        });
+        
+        // Add event listener for the "Continue Shopping" button inside the modal
+        document.getElementById('continue-shopping-btn').addEventListener('click', function() {
+            window.location.href = "{{ url_for('books') }}";
+        });
+    </script>
+</body>
+</html>

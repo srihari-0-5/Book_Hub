@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHub | Shopping Cart</title>
+    <!-- Use Tailwind CSS for a modern, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-sm p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="{{ url_for('home') }}" class="flex items-center space-x-2">
+                <span class="text-3xl font-bold text-gray-900">BOOKSHUB</span>
+            </a>
+            
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Home</a>
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Shop</a>
+                <a href="{{ url_for('books') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">Products</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">FAQs</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium">My account</a>
+            </nav>
+
+            <!-- User/Cart Icons -->
+            <div class="flex items-center space-x-4">
+                <a href="{{ url_for('view_cart') }}" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                </a>
+                <a href="{{ url_for('logout') }}" class="text-sm px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6 min-h-screen">
+        <h1 class="text-4xl font-bold text-gray-900 mb-8 text-center">Your Shopping Cart</h1>
+
+        {% if cart_items %}
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Cart Items List -->
+            <div class="lg:col-span-2 space-y-6">
+                {% for item in cart_items %}
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <!-- Book Image -->
+                    <img src="{{ url_for('static', filename=item.image_url) }}" alt="{{ item.title }}" class="h-32 w-24 object-cover rounded-md flex-shrink-0">
+                    
+                    <!-- Item Details -->
+                    <div class="flex-grow text-center sm:text-left">
+                        <h3 class="text-lg font-semibold text-gray-900">{{ item.title }}</h3>
+                        <p class="text-sm text-gray-500">By {{ item.author }}</p>
+                        <p class="text-md font-bold text-gray-800 mt-2">₹{{ '%.2f' | format(item.price) }}</p>
+                    </div>
+
+                    <!-- Quantity Controls -->
+                    <div class="flex items-center space-x-2">
+                        <a href="{{ url_for('update_cart_quantity', book_id=item.id, action='decrease') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded-full transition-colors duration-200">-</a>
+                        <span class="text-lg font-semibold w-8 text-center">{{ item.quantity }}</span>
+                        <a href="{{ url_for('update_cart_quantity', book_id=item.id, action='increase') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded-full transition-colors duration-200">+</a>
+                    </div>
+
+                    <!-- Item Total -->
+                    <div class="text-lg font-bold text-gray-900 w-28 text-center">
+                        ₹{{ '%.2f' | format(item.total_price) }}
+                    </div>
+
+                    <!-- Remove Button -->
+                    <a href="{{ url_for('remove_from_cart', book_id=item.id) }}" class="text-gray-400 hover:text-red-500 transition-colors duration-200">
+                        <i class="fa-solid fa-trash-can text-lg"></i>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="bg-white rounded-xl shadow-lg p-6 h-fit">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Order Summary</h2>
+                <div class="space-y-2 mb-6">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span>₹{{ '%.2f' | format(total_price) }}</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Shipping</span>
+                        <span>₹0.00</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold text-gray-900 border-t pt-4 mt-4">
+                        <span>Total</span>
+                        <span>₹{{ '%.2f' | format(total_price) }}</span>
+                    </div>
+                </div>
+                <a href="{{ url_for('checkout_page') }}" class="w-full mt-6 block bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md text-center">
+                    Proceed to Checkout
+                </a>
+                
+            </div>
+        </div>
+        {% else %}
+        <div class="flex flex-col items-center justify-center h-full text-center py-20">
+            <i class="fa-solid fa-cart-shopping text-9xl text-gray-300 mb-6"></i>
+            <p class="text-2xl text-gray-500 font-semibold mb-4">Your cart is empty.</p>
+            <p class="text-gray-500 mb-8">Looks like you haven't added any books to your cart yet.</p>
+            <a href="{{ url_for('books') }}" class="text-md px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
+                Start Shopping
+            </a>
+        </div>
+        {% endif %}
+    </main>
+    
+</body>
+</html>

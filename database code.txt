@@ -1,0 +1,49 @@
+-- This script will create the database, table, and insert all book data.
+-- You can run this script to set up a new database with all the book information.
+
+-- Step 1: Create the database
+CREATE DATABASE IF NOT EXISTS books;
+
+-- Step 2: Use the newly created database
+USE books;
+
+-- Step 3: Create the 'books' table
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(5, 2) NOT NULL,
+    image_url VARCHAR(255)
+);
+
+-- Step 4: Insert data for all the books
+INSERT INTO books (title, author, description, price, image_url) VALUES
+('Savitribai Phule : Her Life, Her Relationships, Her Legacy', 'Reeta Ramamurthy Gupta', 'A biography of Savitribai Phule, exploring her life, relationships, and legacy.', 450.00, 'images/book1.jpg'),
+('The Power of Curiosity : In and Beyond Classrooms', 'Anita Karwal| Rashi Sharma| Rajnish Kumar', 'An insightful look into the power of curiosity for learning.', 320.50, 'images/book2.jpg'),
+('Dare to Learn : The Power of an Educated Girl', 'Malala Fund', 'A powerful book on the importance of education for girls, by the Malala Fund.', 299.99, 'images/book3.jpg'),
+('What Did You Ask At School Today : A Handbook Of Child Learning Book 2', 'Kamala V. Mukunda', 'A handbook for parents and teachers on child learning.', 510.00, 'images/book4.jpg'),
+('Shala', 'Milind Bokil| Vikrant Pande', 'A captivating novel about school life.', 350.00, 'images/book5.jpg'),
+('Hard Times', 'Charles Dickens', 'A classic novel by Charles Dickens.', 225.00, 'images/book6.jpg'),
+('Oliver Twist', 'Charles Dickens', 'Another timeless classic by Charles Dickens.', 240.00, 'images/book7.jpg'),
+('Mind Map For Kids', 'Tony Buzan', 'A guide to using mind mapping techniques for children.', 499.00, 'images/book8.jpg'),
+('The Battle for Sanskrit : Is Sanskrit Political or Sacred, Oppressive or Liberating, Dead or Alive?', 'Rajiv Malhotra', 'An in-depth analysis of the Sanskrit language and its role in modern India.', 650.00, 'images/book9.jpg'),
+('The Topper Prepares : True Stories of Those Who Cracked the JEE', 'Soum Paul', 'Motivational stories of students who succeeded in the JEE exams.', 380.00, 'images/book10.jpg'),
+('Beyond Degrees ( Hb )', 'Ira Pande', 'A collection of essays and stories.', 420.00, 'images/book11.jpg'),
+('Aligarh Muslim University : The Making of the Modern Indian Muslim', 'Mohammed Wajihuddin', 'A historical account of Aligarh Muslim University and its impact.', 580.00, 'images/book12.jpg'),
+('BITS Of Social Impact : A Social Entrepreneurship Primer with Stories of Founders from BITS Pilani', 'Harsh Bhargava| Sai Prameela Konduru', 'A primer on social entrepreneurship with stories from BITS Pilani alumni.', 625.00, 'images/book13.jpg'),
+('Alice’s Adventures In Wonderland – Harpercollins Children’s', 'Lewis Carroll', 'The classic tale of Alice in Wonderland.', 210.00, 'images/book14.jpg'),
+('The Wonderful Wizard Of Oz – Harpercollins Children’s Classi', 'L. Frank Baum', 'The timeless story of Dorothy and her friends.', 215.00, 'images/book15.jpg'),
+('Thammi’s Gift', 'Himani Dalmia| Priya Kuriyan', 'A heartwarming children''s story.', 199.50, 'images/book16.jpg'),
+('Best Classic Short Stories For Children', 'Various', 'A collection of the best classic short stories for young readers.', 250.00, 'images/book17.jpg'),
+('Learned Men and Women of Ancient India', 'Sreelata Menon', 'A look at the scholars and thinkers of ancient India.', 490.00, 'images/book18.jpg'),
+('Nikhil Out Loud', 'Maulik Pancholy', 'A contemporary novel for young adults.', 330.00, 'images/book19.jpg'),
+('Robotics And Other Super Cool Technology : Young Techie Series 2', 'Shalini Satish| Raam Baranidharan| Tasneem Amiruddin', 'An educational book on robotics and technology for kids.', 410.00, 'images/book20.jpg');
+
+
+ALTER TABLE books
+ADD COLUMN stock_quantity INT DEFAULT 0;
+
+
+UPDATE books
+SET stock_quantity = 20;
